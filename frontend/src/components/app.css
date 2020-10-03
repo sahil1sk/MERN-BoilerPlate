@@ -1,0 +1,72 @@
+body{
+    margin: 0px;
+    padding: 0px;
+}
+
+.navbar{
+    -webkit-box-shadow: 0px 6px 5px -3px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 6px 5px -3px rgba(0,0,0,0.75);
+    box-shadow: 0px 6px 5px -3px rgba(0,0,0,0.75);
+    width: 100%;
+}
+
+#showPointer{
+    cursor: pointer;
+}
+
+#showUnderLine{
+    cursor: pointer;
+    color: rgb(22, 123, 163);
+}
+
+#showUnderLine:hover{
+    text-decoration: underline;
+}
+
+#homePage{
+    font-size: 50px;
+    text-align: center;
+}
+
+#setLoading{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    opacity: 0.6;
+    background-color: white;
+}
+
+.notPage{
+    transform: translateY(-550px);
+    position: absolute;
+    visibility: hidden;
+    overflow: hidden;
+}
+
+.page{
+    position: relative;
+    margin-top: auto;
+    display: flex;
+    justify-content: center;
+    transition: all 0.7s ease-in;
+    transform: translateY(3em);
+}
+
+.showPage{
+    -webkit-box-shadow: -1px 1px 5px 4px rgba(0,0,0,0.75);
+    -moz-box-shadow: -1px 1px 5px 4px rgba(0,0,0,0.75);
+    box-shadow: -1px 1px 5px 4px rgba(0,0,0,0.75);
+    padding: 1em;
+    background-color: #f8f9fa!important;
+    width: 70%;
+    position: absolute; 
+}
+
+#setAlert{
+    width: 100%;
+    position: absolute;
+}

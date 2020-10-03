@@ -36,6 +36,7 @@ router.post('/signup', cors.corsWithOptions, (req, res, next) => {
     else { // if no any error then authenticate the user with local passport
       if(req.body.firstname) user.firstname = req.body.firstname;
       if(req.body.lastname) user.lastname = req.body.lastname;
+      if(req.body.email) user.email = req.body.email;
       user.save((err, user) => {
         if(err){
           res.statusCode = 500;
@@ -80,7 +81,7 @@ router.post('/login', cors.corsWithOptions, (req, res, next) => {
       var token = authenticate.getToken({_id: req.user._id}); // here we generating the token by passing the user id
       res.statusCode = 200; // ok
       res.setHeader('Content-Type', 'application/json');
-      res.json({success: true,  status: 'Login Successfull', token:token}); // sending the token back
+      res.json({success: true,  status: 'Login Successfull', key:token}); // sending the token back
     });
 
   }) (req, res, next); // so here we passing req res next this is the structure we have to follow while passing specific information  
@@ -92,7 +93,7 @@ router.get('/checkJWTToken', cors.corsWithOptions, (req, res) => {
     if(err) return next(err);
     
     if(!user){   // if username or password is not exists or incorrect
-      res.statusCode = 401; // unauthorized
+      res.statusCode = 200; // unauthorized
       res.setHeader('Content-Type', 'application/json');
       return res.json({status: 'JWT ivalid!', success:false, err:info})
     }else{
