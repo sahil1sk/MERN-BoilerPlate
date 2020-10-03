@@ -6,44 +6,72 @@ import {loginLoaing, loginFailed,
     userDataFail, userDataSuccess
    } from './dispatchers';
 
-export const tryLogin = (username, password) => (dispatch) => {
-    let endPoint = baseUrl + '/users/login';
+export const tryLogin = (username, password, type) => (dispatch) => {
     dispatch(loginLoaing(true));
-
+    
     let credentials = {
         "username": username, 
         "password": password
     } 
-
-    return fetch( endPoint, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json'},
-      body: JSON.stringify(credentials)
-    })
-        .then(response => {
-            if (response.ok) {
-                return response
-            }
-            else { 
-                var error = new Error('Error: '+ response.status + ': ' + response.statusText); 
-                error.response = response;  
-                throw error; 
-            }
-        },               
-        error => {
-            var errmess = new Error(error.message); 
-            throw errmess;
-        })
-        .then( data => data.json())
-        .then(data => {
-                localStorage.setItem(baseUrl + 'username', username);
-                localStorage.setItem(baseUrl + 'token', data.key);
-                dispatch(loginSuccess());                        // dispatching the login sucess so that it will come to home page
-                dispatch(userDataSuccess(username, data.key));    // providing the data key
-            }
-        )
-        .catch(error => dispatch(loginFailed("Login error is: " + error.message))); // so if there is any error then we will dispatch the error function 
-        
+    
+    if(type === "social"){
+        return fetch(baseUrl + `/users/facebook/token?access_token=${password}`, {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json'},
+            })
+                .then(response => {
+                    if (response.ok) {
+                        return response
+                    }
+                    else { 
+                        var error = new Error('Error: '+ response.status + ': ' + response.statusText); 
+                        error.response = response;  
+                        throw error; 
+                    }
+                },               
+                error => {
+                    var errmess = new Error(error.message); 
+                    throw errmess;
+                })
+                .then( data => data.json())
+                .then(data => {
+                        localStorage.setItem(baseUrl + 'username', username);
+                        localStorage.setItem(baseUrl + 'token', data.key);
+                        dispatch(loginSuccess());                        // dispatching the login sucess so that it will come to home page
+                        dispatch(userDataSuccess(username, data.key));    // providing the data key
+                    }
+                )
+                .catch(error => dispatch(loginFailed("Login error is: " + error.message))); // so if there is any error then we will dispatch the error function 
+    }else{
+        return fetch(baseUrl + '/users/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json'},
+            body: JSON.stringify(credentials)
+            })
+                .then(response => {
+                    if (response.ok) {
+                        return response
+                    }
+                    else { 
+                        var error = new Error('Error: '+ response.status + ': ' + response.statusText); 
+                        error.response = response;  
+                        throw error; 
+                    }
+                },               
+                error => {
+                    var errmess = new Error(error.message); 
+                    throw errmess;
+                })
+                .then( data => data.json())
+                .then(data => {
+                        localStorage.setItem(baseUrl + 'username', username);
+                        localStorage.setItem(baseUrl + 'token', data.key);
+                        dispatch(loginSuccess());                        // dispatching the login sucess so that it will come to home page
+                        dispatch(userDataSuccess(username, data.key));    // providing the data key
+                    }
+                )
+                .catch(error => dispatch(loginFailed("Login error is: " + error.message))); // so if there is any error then we will dispatch the error function 
+    }
 }
 
 export const tryRegister = (username, email, password) => (dispatch) => {
@@ -78,8 +106,8 @@ export const tryRegister = (username, email, password) => (dispatch) => {
         })
         .then(data => data.json())
         .then(data => {
-                dispatch(registerSuccess())
-                dispatch(tryLogin(username, password)) 
+                dispatch(registerSuccess());
+                dispatch(tryLogin(username, password, "login")); 
             }
         )
         .catch(error => dispatch(registerFailed("Register Error is: " + error.message))); // so if there is any error then we will dispatch the error function

@@ -94,13 +94,13 @@ export default function Header(props) {
         {props.loginData.logoutSuccess && <Alerts msg={"You are Logged out Successfully!"} type="success"/>}
 
         {props.loginData.isLoading && <Loading msg={"Logging you in..."}/>}
-        {props.loginData.errMess && <Alerts msg={"Your username or password is wrong. Make sure that you connected with internet"} type="danger"/>}
+        {props.loginData.errMess && <Alerts msg={props.loginData.errMess} type="danger"/>}
         {props.loginData.logSuccess && <Alerts msg={"You are Logged in Successfully!"} type="success"/>}
 
         {props.regData.isLoading && <Loading msg={"Registering your account..."}/>}
         {props.regData.errMess ? props.regData.errMess === "Register Error is: Failed to fetch" ?  
             <Alerts msg={"Make sure that your internet connection is good!"} type="primary"/> :
-            <Alerts msg={"A user is already exists with this name!"} type="danger"/>
+            <Alerts msg={props.regData.errMess} type="danger"/>
             : ""
         }
         {props.regData.logSuccess && <Alerts msg={"Your account is Registered Successfully!"} type="success"/>}

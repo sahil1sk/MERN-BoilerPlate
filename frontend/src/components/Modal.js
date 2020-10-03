@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
 import './app.css';
 import {Control, Errors, LocalForm} from 'react-redux-form';
+import FacebookLogin from 'react-facebook-login';
+
 
 const required = (val) => val && val.length; // so here we make to check len is greater than 0 if value having length then it will return true otherwise false
 const minLength = (len) => (val) => (val) && (val.length >= len); // this will help to make there must be that min length
@@ -12,13 +14,16 @@ export default class Modal extends Component{
 
     constructor(props){
         super(props);
+        this.state = {
+            socialLogin: false
+        }
 
         this.handleLogin = this.handleLogin.bind(this);
         this.handleRegister = this.handleRegister.bind(this);
     }
 
     handleLogin(values) {
-        this.props.tryLogin(values.name.toLowerCase(), values.password);
+        this.props.tryLogin(values.name.toLowerCase(), values.password, "login");
     }
 
     
@@ -29,6 +34,17 @@ export default class Modal extends Component{
             alert('Your Password Field is Mismatched!');
         }    
     }
+
+    // when facebook button clicked
+    componentClicked(){
+        console.log('button is clicked')
+    }
+
+    // when we get the response from the facebook
+    responseFacebook(response){
+        this.props.tryLogin(response.name, response.accessToken, "social");
+    }
+
 
     render(){
 
@@ -89,12 +105,19 @@ export default class Modal extends Component{
 
                                         </div>
                                     </div>    
-                                    
-                                    
+          
                                     <div className="modal-footer">
-                                        <hr/>                               
+                                        <hr/>                                                    
                                         <p style={{marginRight:"auto"}} >If you don't have account <span onClick={() => this.props.showTrigger()} id="showUnderLine">Register</span> here.</p>
                                         <button type="button" onClick={() => this.props.showTrigger("login")} className="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <FacebookLogin
+                                            textButton="Facebook Login"
+                                            appId="327293525356952"
+                                            cssClass="socialBtn"
+                                            fields="name,email,picture"
+                                            onClick={() => this.componentClicked()}
+                                            callback={(response) => this.responseFacebook(response)} 
+                                        />
                                         <button type="submit" className="btn btn-primary">Login</button>
                                     </div>
 

@@ -9,7 +9,7 @@ import { logoutSuccess } from '../redux/dispatchers';
 
 const mapDispatchToProps = (dispatch) => ({
   autoTrySignIn: () => dispatch(authCheckState()), 
-  tryLogin: (username, password) => dispatch(tryLogin(username, password)),
+  tryLogin: (username, password, type) => dispatch(tryLogin(username, password, type)),
   tryRegister: (username, email, password) => dispatch(tryRegister(username, email, password)),
   tryLogout: () => dispatch(logout()),          
   logoutSuccess: () => dispatch(logoutSuccess()),   

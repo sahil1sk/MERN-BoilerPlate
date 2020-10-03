@@ -10,8 +10,8 @@ export default function alerts({type, msg}) {
 
     return (
       <>
-      {appear && 
-        <div id="setAlert" className={"text-center alert alert-" + type} role="alert">
+      {appear &&
+        <div className={"text-center alert alert-" + type} role="alert">
           {msg}
         </div>
       }

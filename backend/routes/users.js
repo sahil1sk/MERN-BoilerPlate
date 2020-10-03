@@ -113,7 +113,7 @@ router.get('/facebook/token', cors.corsWithOptions, passport.authenticate('faceb
     res.statusCode = 200;
     res.setHeader('Content-Type', 'application/json');
                           // so here we send the token back which we created so that next time it will take token with ourself for login
-    res.json({success: true, token: token, status: 'You are successfully logged in!'});    
+    res.json({success: true, key: token, status: 'You are successfully logged in!'});    
   }
 });
 
